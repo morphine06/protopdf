@@ -54,7 +54,7 @@ protopdf(xml, {
 
 #### and the result will be:
 
-<img src="firstsample.png" alt="Result" width="300"/>
+<img src="doc/firstsample.png" alt="Result" width="300"/>
 
 
 ## 💎 Table of contents
