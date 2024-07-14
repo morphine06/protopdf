@@ -89,6 +89,7 @@ protopdf(xml, {
       - [Origin `rotate`](#origin-rotate)
       - [Origin `scale`](#origin-scale)
       - [Origin `reset`](#origin-reset)
+    - [Section](#section)
   - [Sample for a complexe invoice](#sample-for-a-complexe-invoice)
   - [To do](#to-do)
 
@@ -419,7 +420,19 @@ The `scale` origin type scales the origin by the specified x and y factors.
 
 The `reset` origin type resets the origin to the default position (0, 0).
 
+### Section
 
+The section element represents nodes to reuse in the document. First your create a section with a `name` (not printed immediatly) and then you can render it with the `render` attribute.
+
+```xml
+<!-- section declaration are not printed -->
+<section name="header">
+    <text style="title" x='20' y='20'>MY SECTION !</text>
+</section>
+...
+<!-- more later, you can render the section -->
+<section render="header" />
+```
 
 ## Sample for a complexe invoice
 
