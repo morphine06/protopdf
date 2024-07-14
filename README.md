@@ -148,6 +148,9 @@ The text element represents a text in the PDF. It can have the following attribu
 <text style="title" x='50' y='50'>Hello, {{name}}!</text>
 ```
 
+> Go to [special variable `lastY`](#special-variable-lasty) to see how to use the special variable `lastY`. It's useful to calculate the position of the next text.
+
+
 ### Image
 
 The image element represents an image in the PDF. It can have the following attributes:
