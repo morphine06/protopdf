@@ -1,6 +1,6 @@
 {
   "name": "protopdf",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Describe your PDF template in a simple XML format (with styles, variables, loops, and conditions) and generate a PDF from it",
   "main": "lib/index.js",
   "scripts": {
