@@ -20,7 +20,7 @@ const { protopdf } = require('protopdf');
 let xml = `
 <document>
     <styles>
-        <style name="title" size="30" font="Helvetica" />
+        <style name="title" size="30" font="Helvetica-Bold" />
         <style name="standard" size="11" font="Helvetica" color="black" />
     </styles>
 
