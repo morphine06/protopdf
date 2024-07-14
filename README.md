@@ -399,7 +399,8 @@ protopdf('test/test.xml', {
 
 ## To do
 
-- [ ] Use personal fonts
+- [ ] Use other fonts
+- [ ] Add `<section name="">` element and `<section render="">` to reuse elements
 - [ ] Add origin attribute to set the origin of the coordinates `<origin type="translate" x="100" y="100" />` `<origin type="rotate" angle="45" />` `<origin type="scale" x="1.5" y="1.5" />` `<origin type="reset" />`
 - [ ] For ellipse and circle, use the center of the shape instead of the bounding box
 - [ ] Add `angle` attribute to rotate elements
@@ -408,7 +409,6 @@ protopdf('test/test.xml', {
 - [ ] Warning if a variable is not defined
 - [ ] Warning : loop define a variable in the root data... bof bof
 - [ ] Support linearGradient and radialGradient
-- [ ] Add `<section name="">` element and `<section render="">` to reuse elements
 - [ ] Loop through arrays of objects
 - [ ] Check attributes and values
 - [ ] Add `<include src="">` element to include another XML file
