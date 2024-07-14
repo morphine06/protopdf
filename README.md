@@ -57,15 +57,16 @@ protopdf(xml, {
 <img src="firstsample.png" alt="Result" width="300"/>
 
 
-## Quick jump
+## Table of contents
 - [protopdf](#protopdf)
   - [Installation](#installation)
   - [Usage](#usage)
       - [and the result will be:](#and-the-result-will-be)
-  - [Quick jump](#quick-jump)
+  - [Table of contents](#table-of-contents)
   - [XML Syntax](#xml-syntax)
     - [Document](#document)
     - [Styles](#styles)
+      - [Font](#font)
     - [Page](#page)
     - [Text](#text)
     - [Image](#image)
@@ -113,6 +114,16 @@ The styles element contains the styles that can be used in the document. Each st
 <styles>
     <style name="title" size="30" font="Helvetica" />
     <style name="standard" size="11" font="Helvetica" color="black" />
+</styles>
+```
+
+#### Font
+
+You can use your own font by setting the path to the font file. The font file must be a TrueType (.ttf), OpenType (.otf), WOFF, WOFF2, TrueType Collection (.ttc), and Datafork TrueType (.dfont) fonts
+
+```xml
+<styles>
+    <style name="title" size="30" font="test/PlaywriteCU-VariableFont_wght.ttf" />
 </styles>
 ```
 
@@ -399,7 +410,7 @@ protopdf('test/test.xml', {
 
 ## To do
 
-- [ ] Use other fonts
+- [x] Use other fonts
 - [ ] Add `<section name="">` element and `<section render="">` to reuse elements
 - [ ] Add origin attribute to set the origin of the coordinates `<origin type="translate" x="100" y="100" />` `<origin type="rotate" angle="45" />` `<origin type="scale" x="1.5" y="1.5" />` `<origin type="reset" />`
 - [ ] For ellipse and circle, use the center of the shape instead of the bounding box
