@@ -78,12 +78,17 @@ protopdf(xml, {
     - [RoundedRect (vector graphic)](#roundedrect-vector-graphic)
     - [Ellipse (vector graphic)](#ellipse-vector-graphic)
     - [Circle (vector graphic)](#circle-vector-graphic)
-    - [NewPage](#newpage)
+    - [Pagebreak](#pagebreak)
     - [Declare](#declare)
     - [If](#if)
     - [For](#for)
     - [Variables](#variables)
       - [Special variable `lastY`](#special-variable-lasty)
+    - [Origin transformations](#origin-transformations)
+      - [Origin `translate`](#origin-translate)
+      - [Origin `rotate`](#origin-rotate)
+      - [Origin `scale`](#origin-scale)
+      - [Origin `reset`](#origin-reset)
   - [Sample for a complexe invoice](#sample-for-a-complexe-invoice)
   - [To do](#to-do)
 
@@ -210,8 +215,14 @@ The barcode element represents a barcode in the PDF. It can have the following a
 
 The paths element represents a set of paths in the PDF. **It pratices to set default attributes for elements inside**. It can contain `line`, `rect`, `roundedRect`, `ellipse`, `circle` elements. It can have the following attributes:
 - `lineWidth` (number) default: 1, the width of the lines,
-- `strokeColor` (string) default: "black", the color of the lines,
+- `strokeColor` (string) default: "black", the color of the lines.
+  - strokeColor or fillColor or both are mandatory.
+  - If not set, the lines will not be displayed.
+  - Or use `strokeColor="none"` to hide the lines,
 - `fillColor` (string), the color of the fill.
+  - strokeColor or fillColor or both are mandatory.
+  - If not set, the shapes will not be filled.
+  - Or use `fillColor="none"` to hide the fill.
 
 ```xml
 <paths lineWidth="0.5" strokeColor="#585858">
@@ -230,6 +241,10 @@ The line element represents a line in the PDF. It can have the following attribu
 - `y` (number) required, the y position of the line,
 - `dx` (number) required, the x distance of the line,
 - `dy` (number) required, the y distance of the line.
+- `lineWidth` (number) default: 1, the width of the lines,
+- `strokeColor` (string) default: "black", the color of the lines. `StrokeColor` or `fillColor` or both are mandatory.
+- `fillColor` (string) default: "black", the color of the fill. `StrokeColor` or `fillColor` or both are mandatory.
+
 
 ```xml
 <line x="50" y="50" dx="100" dy="0" />
@@ -242,6 +257,10 @@ The rect element represents a rectangle in the PDF. It can have the following at
 - `y` (number) required, the y position of the rectangle,
 - `w` (number) required, the width of the rectangle,
 - `h` (number) required, the height of the rectangle.
+- `lineWidth` (number) default: 1, the width of the lines,
+- `strokeColor` (string) default: "black", the color of the lines. `StrokeColor` or `fillColor` or both are mandatory.
+- `fillColor` (string) default: "black", the color of the fill. `StrokeColor` or `fillColor` or both are mandatory.
+
 
 ```xml
 <rect x="50" y="50" w="100" h="100" />
@@ -255,6 +274,10 @@ The roundedRect element represents a rounded rectangle in the PDF. It can have t
 - `w` (number) required, the width of the rectangle,
 - `h` (number) required, the height of the rectangle,
 - `radius` (number) required, the radius of the corners.
+- `lineWidth` (number) default: 1, the width of the lines,
+- `strokeColor` (string) default: "black", the color of the lines. `StrokeColor` or `fillColor` or both are mandatory.
+- `fillColor` (string) default: "black", the color of the fill. `StrokeColor` or `fillColor` or both are mandatory.
+
 
 ```xml
 <roundedRect x="50" y="50" w="100" h="100" radius="10" />
@@ -267,6 +290,9 @@ The ellipse element represents an ellipse in the PDF. **x, y, w, h represent the
 - `y` (number) required, the y position of the ellipse,
 - `w` (number) required, the width of the ellipse,
 - `h` (number) required, the height of the ellipse.
+- `lineWidth` (number) default: 1, the width of the lines,
+- `strokeColor` (string) default: "black", the color of the lines. `StrokeColor` or `fillColor` or both are mandatory.
+- `fillColor` (string) default: "black", the color of the fill. `StrokeColor` or `fillColor` or both are mandatory.
 
 ```xml
 <ellipse x="50" y="50" w="100" h="100" />
@@ -278,21 +304,24 @@ The circle element represents a circle in the PDF. **x, y, w represent the bound
 - `x` (number) required, the x position of the circle,
 - `y` (number) required, the y position of the circle,
 - `w` (number) required, the width of the circle (the diameter).
+- `lineWidth` (number) default: 1, the width of the lines,
+- `strokeColor` (string) default: "black", the color of the lines. `StrokeColor` or `fillColor` or both are mandatory.
+- `fillColor` (string) default: "black", the color of the fill. `StrokeColor` or `fillColor` or both are mandatory.
 
 ```xml
 <circle x="50" y="50" w="100" />
 ```
 
-### NewPage
+### Pagebreak
 
-The newpage element represents a new page in the PDF.
+The pagebreak element represents a new page in the PDF.
 
 ```xml
-<newpage />
+<pagebreak />
 
 <!-- or with a condition (useful in a loop) -->
 <if condition="{{lastY}}>500">
-    <newpage />
+    <pagebreak />
 </if>
 ```
 
@@ -356,6 +385,40 @@ A special variable `lastY` is available to get the last Y position of text for e
 <declare var="posY" val="{{lastY}}+20" />
 ```
 
+### Origin transformations
+
+You can use the `origin` element to set the origin of the coordinates. The origin type can be `translate`, `rotate`, `scale` or `reset`.
+
+```xml
+<origin type="translate" dx="100" dy="100" />
+<origin type="rotate" angle="45" origin="[100, 100]" />
+<origin type="scale" factor="1.5" origin="[200, 200]" />
+<origin type="reset" />
+```
+
+#### Origin `translate`
+
+The `translate` origin type moves the origin by the specified dx and dy values.
+- `dx` (number) required, the x distance to move the origin,
+- `dy` (number) required, the y distance to move the origin.
+- `origin` (array) default: [0, 0], the origin point.
+
+#### Origin `rotate`
+
+The `rotate` origin type rotates the origin by the specified angle value.
+- `angle` (number) required, the angle to rotate the origin,
+- `origin` (array) default: [0, 0], the origin point.
+
+#### Origin `scale`
+
+The `scale` origin type scales the origin by the specified x and y factors.
+- `factor` (number) required, the factor to scale the origin,
+- `origin` (array) default: [0, 0], the origin point.
+
+#### Origin `reset`
+
+The `reset` origin type resets the origin to the default position (0, 0).
+
 
 
 ## Sample for a complexe invoice
@@ -412,8 +475,10 @@ protopdf('test/test.xml', {
 
 - [x] Use other fonts
 - [ ] Add `<section name="">` element and `<section render="">` to reuse elements
-- [ ] Add origin attribute to set the origin of the coordinates `<origin type="translate" x="100" y="100" />` `<origin type="rotate" angle="45" />` `<origin type="scale" x="1.5" y="1.5" />` `<origin type="reset" />`
+- [x] Add origin attribute to set the origin of the coordinates `<origin type="translate" dx="100" dy="100" />` `<origin type="rotate" angle="45" />` `<origin type="scale" x="1.5" y="1.5" />` `<origin type="reset" />`
+- [ ] Replace `eval` by `Function` to evaluate expressions
 - [ ] For ellipse and circle, use the center of the shape instead of the bounding box
+- [ ] Add `<path>` element to draw SVG shapes
 - [ ] Add `angle` attribute to rotate elements
 - [ ] Add `clip` attribute to clip elements
 - [ ] Ameliorate the `<b>xxx</b>` syntax to bold text
