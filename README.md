@@ -6,13 +6,13 @@ You can create complex layouts with text, images, QR codes, barcodes, and vector
 > **This project is in early development stage.**
 > Feel free to contribute.
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install protopdf
 ```
 
-## Usage
+## 🚀 Usage
 
 ```javascript
 const { protopdf } = require('protopdf');
@@ -57,13 +57,13 @@ protopdf(xml, {
 <img src="firstsample.png" alt="Result" width="300"/>
 
 
-## Table of contents
+## 💎 Table of contents
 - [protopdf](#protopdf)
-  - [Installation](#installation)
-  - [Usage](#usage)
+  - [📦 Installation](#-installation)
+  - [🚀 Usage](#-usage)
       - [and the result will be:](#and-the-result-will-be)
-  - [Table of contents](#table-of-contents)
-  - [XML Syntax](#xml-syntax)
+  - [💎 Table of contents](#-table-of-contents)
+  - [📙 XML Syntax](#-xml-syntax)
     - [Document](#document)
     - [Styles](#styles)
       - [Font](#font)
@@ -93,7 +93,7 @@ protopdf(xml, {
   - [Sample for a complexe invoice](#sample-for-a-complexe-invoice)
   - [To do](#to-do)
 
-## XML Syntax
+## 📙 XML Syntax
 
 > This library use pdfkit ([https//pdfkit.org](https://pdfkit.org/)) to generate the PDF. You can use all the pdfkit parameters in the XML attributes for text and image elements.
 
@@ -437,66 +437,199 @@ The section element represents nodes to reuse in the document. First your create
 ## Sample for a complexe invoice
 
 ```xml
-Coming soon...
+<document>
+
+	<styles>
+		<style name="title" size="30" font="Helvetica" />
+		<style name="standard" size="11" font="Helvetica" color="black" />
+		<style name="standard-bold" size="11" font="Helvetica-Bold" color="black" />
+		<style name="red" size="11" font="Helvetica" color="red" opacity="1" />
+		<style name="tablecell" size="9" font="Helvetica" color="black" />
+		<style name="little" size="9" font="Helvetica" color="black" />
+		<style name="tiny" size="6.3" font="Helvetica" color="black" />
+	</styles>
+
+	<page size="A4" layout="portrait" margins="{ top: 0, bottom: 0, left: 0, right: 0 }">
+
+		<section name="header">
+			<image x="50" y="30" src="test/logo-tacadoli.png" width="150" />
+			<text style="title" x='320' y='42'>{{invoice.type}}</text>
+			<if condition="{{invoice.duplicata}}==true">
+				<text style="red" x='320' y='{{lastY}}-6'>DUPLICATA</text>
+			</if>
+		</section>
+
+		<section name="footer">
+			<text style="little" x='50' y='750' align="center">
+			572 Avenue du Club Hippiques - Immeuble Le Derby - 13090 Aix-en-Provence
+			Tél. 00 701 000 00 | Site : xxxxx.com | E-mail : xxxx@xxx.com
+			</text>
+		</section>
+
+
+		<section render="header" />
+		<text style="little" x='50' y='90'>
+		572 Avenue du Club Hippiques
+		Immeuble Le Derby
+		13090 Aix-en-Provence
+		Tél. 00 701 000 00 | Site : xxxxx.com
+		E-mail : xxxx@xxx.com
+		Siren : XXX XXX 839 | Orias : XXXXXXXX
+		</text>
+
+		<text style="standard-bold" x='320' y='130'>{{invoice.customer.firstname}} {{invoice.customer.name}}</text>
+		<text style="standard" x='320' y='{{lastY}}'>{{invoice.customer.address}}</text>
+		<text style="standard" x='320' y='{{lastY}}'>{{invoice.customer.zip}} {{invoice.customer.city}} - {{invoice.customer.country}}</text>
+
+		<text style="standard" x='50' y='164'>{{invoice.type}} N° {{invoice.num}}</text>
+		<text style="standard" x='50' y='{{lastY}}'>Du {{invoice.date}}</text>
+		<text style="standard" x='50' y='{{lastY}}'>N° Client {{invoice.customer.code}}</text>
+
+
+		<declare var="posY" val="300" />
+		<declare var="col1" val="45" />
+		<declare var="col2" val="415" />
+		<declare var="col3" val="475" />
+		<declare var="col4" val="505" />
+		<declare var="col5" val="555" />
+
+		<text style="standard-bold" x='{{col1}}' y='{{posY}}' width="{{col2}}-{{col1}}">Désignation</text>
+		<text style="standard-bold" x='{{col2}}' y='{{posY}}' align="right" width="{{col3}}-{{col2}}">P HT</text>
+		<text style="standard-bold" x='{{col3}}' y='{{posY}}' align="center" width="{{col4}}-{{col3}}">Qté</text>
+		<text style="standard-bold" x='{{col4}}' y='{{posY}}' align="right" width="{{col5}}-{{col4}}">Total</text>
+		<declare var="posY" val="{{posY}}+20" />
+		<paths lineWidth="0.5" strokeColor="#585858">
+			<line x="{{col1}}-15" y="{{posY}}-5" dx="{{col5}}-15" dy="0" />
+			<line x="{{col1}}-15" y="{{posY}}-28" dx="{{col5}}-15" dy="0" />
+		</paths>
+
+		<declare var="posY" val="{{posY}}+6" />
+		<declare var="posYSaved" val="0" />
+		<for var="invoice.lines" as="line">
+			<text x="{{col1}}" y="{{posY}}" style="tablecell" width="{{col2}}-{{col1}}-100">{{line._index}}. {{line.product}} {{line.description}}</text>
+			<barcode x="{{col2}}-100" y="{{posY}}" value="'{{line.ref}}'" width="100" options="{ fontSize: 40, background: '#4b8b7f', lineColor: '#ffffff', margin: 10 }" />
+
+			<declare var="posYSaved" val="{{lastY}}" />
+			<text x="{{col2}}" y="{{posY}}" align="right" width="{{col3}}-{{col2}}" style="tablecell">{{line.priceunit}}</text>
+			<text x="{{col3}}" y="{{posY}}" align="center" width="{{col4}}-{{col3}}" style="tablecell">{{line.qty}}</text>
+			<text x="{{col4}}" y="{{posY}}" align="right" width="{{col5}}-{{col4}}" style="tablecell">{{line.total}}</text>
+			<paths lineWidth="0.5" strokeColor="#585858">
+				<line x="{{col1}}-15" y="{{posYSaved}}+2" dx="{{col5}}-15" dy="0" />
+			</paths>
+			<declare var="posY" val="{{posYSaved}}+8" />
+			<if condition="{{posYSaved}}>600">
+				<section render="footer" />
+				<pagebreak />
+				<section render="header" />
+				<declare var="posY" val="200" />
+			</if>
+		</for>
+
+
+		<declare var="posY" val="{{posYSaved}}+30" />
+		<if condition="{{invoice.totalnet}}>0">
+			<text style="standard" x='275' y='{{posY}}' align="right" width="158">Total net :</text>
+			<text style="standard" x='473' y='{{posY}}' align="right" width="76">{{invoice.totalnet}}</text>
+			<declare var="posY" val="{{posY}}+14" />
+		</if>
+		<text style="standard" x='275' y='{{posY}}' align="right" width="158">Total HT :</text>
+		<text style="standard" x='473' y='{{posY}}' align="right" width="76">{{invoice.totalht}} €</text>
+		<declare var="posY" val="{{posY}}+14" />
+		<if condition="{{invoice.totalremise}}>0">
+			<text style="standard" x='275' y='{{posY}}' align="right" width="158">Remise HT:</text>
+			<text style="standard" x='473' y='{{posY}}' align="right" width="76">{{invoice.totalremise}}</text>
+			<declare var="posY" val="{{posY}}+14" />
+		</if>
+		<for var="invoice.tvas" as="tva">
+			<text style="standard" x='275' y='{{posY}}' align="right" width="158">TVA ({{tva.rate}}%) :</text>
+			<text style="standard" x='473' y='{{posY}}' align="right" width="76">{{tva.amount}} €</text>
+			<declare var="posY" val="{{posY}}+14" />
+		</for>
+		<text style="standard-bold" x='275' y='{{posY}}' align="right" width="158">Total TTC :</text>
+		<text style="standard-bold" x='473' y='{{posY}}' align="right" width="76">{{invoice.totalttc}} €</text>
+
+		<declare var="posY" val="{{posY}}+14" />
+		<if condition="{{invoice.paymentremaining}}>0">
+			<text style="standard-bold" x='275' y='{{posY}}' align="right" width="158">Reste à payer :</text>
+			<text style="standard-bold" x='473' y='{{posY}}' align="right" width="76">{{invoice.paymentremaining}}</text>
+			<declare var="posY" val="{{posY}}+14" />
+		</if>
+		<roundedRect x="330" y="{{posYSaved}}+20" w="240" h="{{posY}}-{{posYSaved}}-15" radius="10" strokeColor="green" />
+
+		<section render="footer" />
+
+	</page>
+
+</document>
 ```
 
 ```javascript
 
 const { protopdf } = require('./lib/index');
 
-protopdf('test/test.xml', {
-    invoice: {
-        type: "Facture",
-        duplicata: true,
-        num: "20240701-0001",
-        date: "01/07/2024",
-        totalht: 130,
-        totalttc: 150,
-        totalport: 10,
-        customer: {
-            code: "C001",
-            name: "CustomerName",
-            address: "CustomerAddress1\nCustomerAddress2",
-            city: "CustomerCity",
-            zip: "CustomerZip",
-            country: "CustomerCountry",
+let data = {
+    "invoice": {
+        "type": "Facture",
+        "duplicata": true,
+        "num": "20240701-0001",
+        "date": "01/07/2024",
+        "totalht": 130,
+        "totalttc": 150,
+        "customer": {
+            "code": "C001",
+            "name": "Jean",
+            "firstname": "Laura",
+            "address": "13 Boulevard de Richelieu\n4 étage",
+            "city": "Avignon",
+            "zip": "29727",
+            "country": "France"
         },
-        tvas: [
-            { rate: 20, base: 130, amount: 26 },
-            { rate: 10, base: 130, amount: 13 },
+        "tvas": [
+            {
+                "rate": 20,
+                "base": 130,
+                "amount": 26
+            },
+            {
+                "rate": 10,
+                "base": 130,
+                "amount": 13
+            }
         ],
-        lines: [
-            { desc: "Line 1", qty: 2, priceunity: 10, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 2", qty: 1, priceunity: 20, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 3", qty: 3, priceunity: 30, pricetotal: 90, qrcode: "1234" },
-            { desc: "Line 1", qty: 2, priceunity: 10, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 2", qty: 1, priceunity: 20, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 3", qty: 3, priceunity: 30, pricetotal: 90, qrcode: "1234" },
-            { desc: "Line 1", qty: 2, priceunity: 10, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 2", qty: 1, priceunity: 20, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 3", qty: 3, priceunity: 30, pricetotal: 90, qrcode: "1234" },
-            { desc: "Line 1", qty: 2, priceunity: 10, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 2", qty: 1, priceunity: 20, pricetotal: 20, qrcode: "1234" },
-            { desc: "Line 3", qty: 3, priceunity: 30, pricetotal: 90, qrcode: "1234" },
-        ],
+        "lines": [
+            {
+                "ref": "978-0-09-359464-8",
+                "product": "Recyclé Métal Chaussures",
+                "description": "Maillot en coton fin à rayures se boutonnant devant pour enfants.",
+                "qty": 1,
+                "priceunit": "77,00 €",
+                "total": "77,00 €",
+                "image": "https://loremflickr.com/640/480/nature?lock=90003533201408"
+            },
+            // ...
+        ]
     }
-}).toFile('test/test.pdf');
-```
+};
 
+protopdf('test/test.xml', data).toFile('test/test.pdf');
+```
+<img src="doc/sample1-1.png" alt="Invoice" width="400" />
+
+<img src="doc/sample1-2.png" alt="Invoice" width="400" />
 
 ## To do
 
 - [x] Use other fonts
-- [ ] Add `<section name="">` element and `<section render="">` to reuse elements
+- [x] Add `<section name="">` element and `<section render="">` to reuse elements
 - [x] Add origin attribute to set the origin of the coordinates `<origin type="translate" dx="100" dy="100" />` `<origin type="rotate" angle="45" />` `<origin type="scale" x="1.5" y="1.5" />` `<origin type="reset" />`
-- [ ] Replace `eval` by `Function` to evaluate expressions
+- [x] Replace `eval` by `Function` to evaluate expressions
 - [ ] For ellipse and circle, use the center of the shape instead of the bounding box
 - [ ] Add `<path>` element to draw SVG shapes
 - [ ] Add `angle` attribute to rotate elements
 - [ ] Add `clip` attribute to clip elements
 - [ ] Ameliorate the `<b>xxx</b>` syntax to bold text
-- [ ] Warning if a variable is not defined
-- [ ] Warning : loop define a variable in the root data... bof bof
+- [ ] Warning if a mandatory variable is not defined
+- [x] Warning : loop define a variable in the root data... bof bof
 - [ ] Support linearGradient and radialGradient
 - [ ] Loop through arrays of objects
 - [ ] Check attributes and values
