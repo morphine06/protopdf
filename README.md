@@ -57,6 +57,34 @@ protopdf(xml, {
 <img src="firstsample.png" alt="Result" width="300"/>
 
 
+## Quick jump
+- [protopdf](#protopdf)
+  - [Installation](#installation)
+  - [Usage](#usage)
+      - [and the result will be:](#and-the-result-will-be)
+  - [Quick jump](#quick-jump)
+  - [XML Syntax](#xml-syntax)
+    - [Document](#document)
+    - [Styles](#styles)
+    - [Page](#page)
+    - [Text](#text)
+    - [Image](#image)
+    - [QRCode](#qrcode)
+    - [Barcode](#barcode)
+    - [Paths](#paths)
+    - [Line (vector graphic)](#line-vector-graphic)
+    - [Rect (vector graphic)](#rect-vector-graphic)
+    - [RoundedRect (vector graphic)](#roundedrect-vector-graphic)
+    - [Ellipse (vector graphic)](#ellipse-vector-graphic)
+    - [Circle (vector graphic)](#circle-vector-graphic)
+    - [NewPage](#newpage)
+    - [Declare](#declare)
+    - [If](#if)
+    - [For](#for)
+    - [Variables](#variables)
+      - [Special variable `lastY`](#special-variable-lasty)
+  - [Sample for a complexe invoice](#sample-for-a-complexe-invoice)
+
 ## XML Syntax
 
 > This library use pdfkit ([https//pdfkit.org](https://pdfkit.org/)) to generate the PDF. You can use all the pdfkit parameters in the XML attributes for text and image elements.
