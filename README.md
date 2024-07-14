@@ -90,7 +90,7 @@ protopdf(xml, {
       - [Origin `scale`](#origin-scale)
       - [Origin `reset`](#origin-reset)
     - [Section](#section)
-  - [Sample for a complexe invoice](#sample-for-a-complexe-invoice)
+  - [⚠️ Sample for a complexe invoice](#️-sample-for-a-complexe-invoice)
   - [To do](#to-do)
 
 ## 📙 XML Syntax
@@ -434,7 +434,7 @@ The section element represents nodes to reuse in the document. First your create
 <section render="header" />
 ```
 
-## Sample for a complexe invoice
+## ⚠️ Sample for a complexe invoice
 
 ```xml
 <document>
@@ -613,6 +613,9 @@ let data = {
 
 protopdf('test/test.xml', data).toFile('test/test.pdf');
 ```
+
+**The PDF generated :**
+
 <img src="doc/sample1-1.png" alt="Invoice" width="400" />
 
 <img src="doc/sample1-2.png" alt="Invoice" width="400" />
