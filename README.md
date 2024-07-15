@@ -63,41 +63,42 @@ protopdf(xml, {
   - [🚀 Usage](#-usage)
       - [and the result will be:](#and-the-result-will-be)
   - [💎 Table of contents](#-table-of-contents)
-  - [📙 XML Syntax](#-xml-syntax)
-    - [Document](#document)
-    - [Styles](#styles)
-      - [Font](#font)
-    - [Page](#page)
-    - [Text](#text)
-    - [Image](#image)
-    - [QRCode](#qrcode)
-    - [Barcode](#barcode)
-    - [Paths](#paths)
-    - [Line (vector graphic)](#line-vector-graphic)
-    - [Rect (vector graphic)](#rect-vector-graphic)
-    - [RoundedRect (vector graphic)](#roundedrect-vector-graphic)
-    - [Ellipse (vector graphic)](#ellipse-vector-graphic)
-    - [Circle (vector graphic)](#circle-vector-graphic)
-    - [Pagebreak](#pagebreak)
-    - [Declare](#declare)
-    - [If](#if)
-    - [For](#for)
-    - [Variables](#variables)
-      - [Special variable `lastY`](#special-variable-lasty)
-    - [Origin transformations](#origin-transformations)
+- [📙 XML Syntax](#-xml-syntax)
+  - [Document](#document)
+  - [Styles](#styles)
+      - [Other Font](#other-font)
+  - [Page](#page)
+  - [Text](#text)
+  - [Image](#image)
+  - [QRCode](#qrcode)
+  - [Barcode](#barcode)
+  - [Paths](#paths)
+  - [Line (vector graphic)](#line-vector-graphic)
+  - [Rect (vector graphic)](#rect-vector-graphic)
+  - [RoundedRect (vector graphic)](#roundedrect-vector-graphic)
+  - [Ellipse (vector graphic)](#ellipse-vector-graphic)
+  - [Circle (vector graphic)](#circle-vector-graphic)
+  - [Pagebreak](#pagebreak)
+  - [Declare](#declare)
+  - [If](#if)
+  - [For](#for)
+  - [Variables](#variables)
+    - [Special variable `lastY`](#special-variable-lasty)
+  - [Origin transformations](#origin-transformations)
       - [Origin `translate`](#origin-translate)
       - [Origin `rotate`](#origin-rotate)
       - [Origin `scale`](#origin-scale)
       - [Origin `reset`](#origin-reset)
-    - [Section](#section)
-  - [⚠️ Sample for a complexe invoice](#️-sample-for-a-complexe-invoice)
-  - [⚡️ To do](#️-to-do)
+  - [Section](#section)
+- [⚠️ Samples](#️-samples)
+  - [A complexe invoice](#a-complexe-invoice)
+- [⚡️ To do](#️-to-do)
 
-## 📙 XML Syntax
+# 📙 XML Syntax
 
 > This library use pdfkit ([https//pdfkit.org](https://pdfkit.org/)) to generate the PDF. You can use all the pdfkit parameters in the XML attributes for text and image elements.
 
-### Document
+## Document
 
 The document is the root element of the XML file. It contain the others elements. It is required and unique.
 
@@ -107,7 +108,7 @@ The document is the root element of the XML file. It contain the others elements
 </document>
 ```
 
-### Styles
+## Styles
 
 The styles element contains the styles that can be used in the document. Each style has a name and can have the following attributes: 
 - `name` (string) required, a unique name for the style,
@@ -123,7 +124,7 @@ The styles element contains the styles that can be used in the document. Each st
 </styles>
 ```
 
-#### Font
+#### Other Font
 
 You can use your own font by setting the path to the font file. The font file must be a TrueType (.ttf), OpenType (.otf), WOFF, WOFF2, TrueType Collection (.ttc), and Datafork TrueType (.dfont) fonts
 
@@ -133,7 +134,7 @@ You can use your own font by setting the path to the font file. The font file mu
 </styles>
 ```
 
-### Page
+## Page
 
 The page element represents a page in the PDF. You can put multiple pages in the document. It can have the following attributes:
 - `size` (string) default: "A4",
@@ -146,7 +147,7 @@ The page element represents a page in the PDF. You can put multiple pages in the
 </page>
 ```
 
-### Text
+## Text
 
 The text element represents a text in the PDF. It can have the following attributes:
 - `style` (string) required, a style name defined in the styles element
@@ -169,7 +170,7 @@ The text element represents a text in the PDF. It can have the following attribu
 > Go to [special variable `lastY`](#special-variable-lasty) to see how to use the special variable `lastY`. It's useful to calculate the position of the next text.
 
 
-### Image
+## Image
 
 The image element represents an image in the PDF. It can have the following attributes:
 - `x` (number) required, the x position of the image,
@@ -185,7 +186,7 @@ The image element represents an image in the PDF. It can have the following attr
 ```
 
 
-### QRCode
+## QRCode
 
 The qrcode element represents a QR code in the PDF. It can have the following attributes:
 
@@ -198,7 +199,7 @@ The qrcode element represents a QR code in the PDF. It can have the following at
 <qrcode x="50" y="50" value="'{{invoice.qrcode}}'" options="{ background: '#4b8b7f' }" width="100" />
 ```
 
-### Barcode
+## Barcode
 
 The barcode element represents a barcode in the PDF. It can have the following attributes:
 
@@ -212,7 +213,7 @@ The barcode element represents a barcode in the PDF. It can have the following a
 <barcode x="50" y="50" value="'{{invoice.barcode}}'" width="100" options="{ fontSize: 40, background: '#4b8b7f', lineColor: '#ffffff', margin: 40, marginLeft: 80 }" />
 ```
 
-### Paths
+## Paths
 
 The paths element represents a set of paths in the PDF. **It pratices to set default attributes for elements inside**. It can contain `line`, `rect`, `roundedRect`, `ellipse`, `circle` elements. It can have the following attributes:
 - `lineWidth` (number) default: 1, the width of the lines,
@@ -235,7 +236,7 @@ The paths element represents a set of paths in the PDF. **It pratices to set def
 </paths>
 ```
 
-### Line (vector graphic)
+## Line (vector graphic)
 
 The line element represents a line in the PDF. It can have the following attributes:
 - `x` (number) required, the x position of the line,
@@ -251,7 +252,7 @@ The line element represents a line in the PDF. It can have the following attribu
 <line x="50" y="50" dx="100" dy="0" />
 ```
 
-### Rect (vector graphic)
+## Rect (vector graphic)
 
 The rect element represents a rectangle in the PDF. It can have the following attributes:
 - `x` (number) required, the x position of the rectangle,
@@ -267,7 +268,7 @@ The rect element represents a rectangle in the PDF. It can have the following at
 <rect x="50" y="50" w="100" h="100" />
 ```
 
-### RoundedRect (vector graphic)
+## RoundedRect (vector graphic)
 
 The roundedRect element represents a rounded rectangle in the PDF. It can have the following attributes:
 - `x` (number) required, the x position of the rectangle,
@@ -284,7 +285,7 @@ The roundedRect element represents a rounded rectangle in the PDF. It can have t
 <roundedRect x="50" y="50" w="100" h="100" radius="10" />
 ```
 
-### Ellipse (vector graphic)
+## Ellipse (vector graphic)
 
 The ellipse element represents an ellipse in the PDF. **x, y, w, h represent the bouding box of the ellipse**. It can have the following attributes:
 - `x` (number) required, the x position of the ellipse,
@@ -299,7 +300,7 @@ The ellipse element represents an ellipse in the PDF. **x, y, w, h represent the
 <ellipse x="50" y="50" w="100" h="100" />
 ```
 
-### Circle (vector graphic)
+## Circle (vector graphic)
 
 The circle element represents a circle in the PDF. **x, y, w represent the bounding box of the circle**. It can have the following attributes:
 - `x` (number) required, the x position of the circle,
@@ -313,7 +314,7 @@ The circle element represents a circle in the PDF. **x, y, w represent the bound
 <circle x="50" y="50" w="100" />
 ```
 
-### Pagebreak
+## Pagebreak
 
 The pagebreak element represents a new page in the PDF.
 
@@ -326,7 +327,7 @@ The pagebreak element represents a new page in the PDF.
 </if>
 ```
 
-### Declare
+## Declare
 
 The declare element represents a variable declaration or modification. It's useful to store a value and use it later.
 
@@ -342,7 +343,7 @@ The declare element represents a variable declaration or modification. It's usef
 <declare var="posY" val="{{lastY}}+20" />
 ```
 
-### If
+## If
 
 The if element represents a conditional block. It can have the following attribute:
 - `condition` (string) required, the condition to evaluate.
@@ -358,7 +359,7 @@ The if element represents a conditional block. It can have the following attribu
 </if>
 ```
 
-### For
+## For
 
 The for element represents a loop block. It can have the following attributes:
 
@@ -367,26 +368,29 @@ The for element represents a loop block. It can have the following attributes:
 
 ```xml
 <for var="invoice.lines" as="line">
-    <text x="50" y="{{posY}}" style="standard">{{line.desc}}</text>
+    <text x="50" y="{{posY}}" style="standard">{{line._index}} - {{line.desc}}</text>
     <declare var="posY" val="{{lastY}}+20" />
 </for>
 ```
 
-### Variables
+> Note : The special variable `_index` is available to get the index of the current loop.
+
+
+## Variables
 
 You can use variables in the XML using the double curly braces syntax `{{value}}`. The value can be a string, a number, a boolean or an object. You can access to nested values using the dot syntax `{{object.value}}`.
 
 ```xml
 <text style="title" x='50' y='{{posY}}'>Hello, {{name}}!</text>
 ```
-#### Special variable `lastY`
+### Special variable `lastY`
 A special variable `lastY` is available to get the last Y position of text for example.
 
 ```xml
 <declare var="posY" val="{{lastY}}+20" />
 ```
 
-### Origin transformations
+## Origin transformations
 
 You can use the `origin` element to set the origin of the coordinates. The origin type can be `translate`, `rotate`, `scale` or `reset`.
 
@@ -420,7 +424,7 @@ The `scale` origin type scales the origin by the specified x and y factors.
 
 The `reset` origin type resets the origin to the default position (0, 0).
 
-### Section
+## Section
 
 The section element represents nodes to reuse in the document. First your create a section with a `name` (not printed immediatly) and then you can render it with the `render` attribute.
 
@@ -434,7 +438,9 @@ The section element represents nodes to reuse in the document. First your create
 <section render="header" />
 ```
 
-## ⚠️ Sample for a complexe invoice
+# ⚠️ Samples
+
+## A complexe invoice
 
 ```xml
 <document>
@@ -620,7 +626,7 @@ protopdf('test/test.xml', data).toFile('test/test.pdf');
 
 <img src="doc/sample1-2.png" alt="Invoice" width="400" />
 
-## ⚡️ To do
+# ⚡️ To do
 
 - [x] Use other fonts
 - [x] Add `<section name="">` element and `<section render="">` to reuse elements
