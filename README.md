@@ -91,7 +91,7 @@ protopdf(xml, {
       - [Origin `reset`](#origin-reset)
     - [Section](#section)
   - [⚠️ Sample for a complexe invoice](#️-sample-for-a-complexe-invoice)
-  - [To do](#to-do)
+  - [⚡️ To do](#️-to-do)
 
 ## 📙 XML Syntax
 
@@ -620,7 +620,7 @@ protopdf('test/test.xml', data).toFile('test/test.pdf');
 
 <img src="doc/sample1-2.png" alt="Invoice" width="400" />
 
-## To do
+## ⚡️ To do
 
 - [x] Use other fonts
 - [x] Add `<section name="">` element and `<section render="">` to reuse elements
